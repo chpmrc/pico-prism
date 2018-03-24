@@ -1,0 +1,10 @@
+{
+    "dev": {
+        "app_function": "app.app",
+        "aws_region": "eu-central-1",
+        "profile_name": "zappa",
+        "project_name": "serverless-pris",
+        "runtime": "python3.6",
+        "s3_bucket": "zappa-if1sr0jzr"
+    }
+}
