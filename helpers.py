@@ -48,7 +48,7 @@ def resize(url, width=0, height=0, crop=False, gravity='top_left'):
     only_width = bool(width and not height)
     only_height = bool(height and not width)
     neither = bool(not width and not height)
-    is_portrait = img.height >= img.width
+    is_portrait = height >= width
     is_landscape = not is_portrait
     if only_width or (crop and is_landscape):
         wpercent = (width/float(img.size[0]))
@@ -65,5 +65,5 @@ def resize(url, width=0, height=0, crop=False, gravity='top_left'):
             coordinates = get_crop_coordinates(gravity, img, new_width, img.height)
         else:
             coordinates = get_crop_coordinates(gravity, img, img.width, new_height)
-            img = img.crop(coordinates)
+        img = img.crop(coordinates)
     return img
