@@ -3,6 +3,11 @@ from io import BytesIO
 from PIL import Image
 
 
+class InvalidSize(Exception):
+    def __init__(self, original_size):
+        self.original_size = original_size
+
+
 def get_crop_coordinates(gravity, img, width, height):
     # Ref: https://pillow.readthedocs.io/en/3.1.x/reference/Image.html#PIL.Image.Image.crop
     if gravity == 'center':
@@ -47,10 +52,10 @@ def resize(url, width=0, height=0, crop=False, gravity='top_left'):
     is_landscape = not is_portrait
     if only_width or (crop and is_landscape):
         wpercent = (width/float(img.size[0]))
-        height = int((float(img.size[1])*float(wpercent)))
+        height = int((float(img.size[1])*float(wpercent))) or 1
     if only_height or (crop and is_portrait):
         hpercent = (height/float(img.size[1]))
-        width = int((float(img.size[0])*float(hpercent)))
+        width = int((float(img.size[0])*float(hpercent))) or 1
     if neither:
         width = img.width
         height = img.height
@@ -60,5 +65,5 @@ def resize(url, width=0, height=0, crop=False, gravity='top_left'):
             coordinates = get_crop_coordinates(gravity, img, new_width, img.height)
         else:
             coordinates = get_crop_coordinates(gravity, img, img.width, new_height)
-        img = img.crop(coordinates)
+            img = img.crop(coordinates)
     return img
