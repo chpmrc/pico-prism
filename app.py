@@ -16,6 +16,17 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
+DOCS = """
+Parameters:
+    - url: URL to the image to manipulate
+    - op: one of [`resize`]
+    - width: int (optional if height is defined)
+    - height: int (optional if width is defined)
+    - crop: boolean
+    - gravity: only used for cropping, one of [`center`, `top_left`, `bottom_left`, `top_right`, `bottom_right`], default is `center`
+"""
+
+
 @app.route("/")
 def main():
     try:
@@ -31,18 +42,9 @@ def main():
             return send_file(img2file(url2img(url)), mimetype='image/jpeg')
     except Exception:
         logger.error(traceback.format_exc())
-        docs_link = '<a href="{}">docs</a>'.format('./docs')
-        return Response("Something went wrong (invalid width/height?). Please read the {}.".format(docs_link), status=400)
+        return Response("Something went wrong (invalid width/height?). Please read the docs below:\n{}".format(DOCS), status=400, mimetype='text/plain')
 
 
 @app.route("/docs")
 def docs():
-    return Response("""
-    Parameters:
-        - url: URL to the image to manipulate
-        - op: one of [`resize`]
-        - width: int (optional if height is defined)
-        - height: int (optional if width is defined)
-        - crop: boolean
-        - gravity: only used for cropping, one of [`center`, `top_left`, `bottom_left`, `top_right`, `bottom_right`], default is `center`
-    """, mimetype='text/plain')
+    return Response(DOCS, mimetype='text/plain')
