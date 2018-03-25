@@ -13,7 +13,7 @@ def main():
     width = int(request.args.get('width', 0))
     height = int(request.args.get('height', 0))
     crop = bool(request.args.get('crop', False))
-    gravity = request.args.get('gravity', 'bottom_left')
+    gravity = request.args.get('gravity', 'center')
     if op == 'resize':
         return send_file(img2file(resize(url, width, height, crop=crop, gravity=gravity)), mimetype='image/jpeg')
     else:
