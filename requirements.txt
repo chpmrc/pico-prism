@@ -1,0 +1,4 @@
+requests==2.18.4
+Flask==0.12.2
+Pillow==5.0.0
+zappa==0.45.1
